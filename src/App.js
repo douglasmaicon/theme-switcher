@@ -1,24 +1,25 @@
-import logo from './logo.svg';
-import './App.css';
+import React from "react";
+import { ThemeProvider } from "styled-components";
+import { GlobalStyles } from "./styles/GlobalStyles";
+import Header from "./components/Header";
+import ligth from "./styles/themes/ligth";
+import dark from "./styles/themes/dark";
+import usePersistedState from "./utils/usePersistedState";
 
 function App() {
+  const [theme, setTheme] = usePersistedState('theme', ligth);
+
+  const toggleTheme = () => {
+    setTheme(theme.title === 'ligth' ? dark : ligth);
+  }
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <ThemeProvider theme={theme}>
+      <div className="App">
+        <GlobalStyles />
+        <Header toggleTheme={toggleTheme}/>
+      </div>
+    </ThemeProvider>
   );
 }
 
